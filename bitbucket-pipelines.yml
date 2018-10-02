@@ -1,0 +1,26 @@
+pipelines:
+  default:
+    - step:
+        name: Install Packages
+        image: node:9
+        caches:
+          - node
+        script:
+          - yarn
+    - step:
+        name: Lint project
+        image: node:9
+        caches:
+          - node
+        script:
+          - yarn lint
+    - step:
+        name: Build artifact
+        image: node:9
+        caches:
+          - node
+        script:
+          - yarn build
+        artifacts:
+          - corcovado/build/**
+

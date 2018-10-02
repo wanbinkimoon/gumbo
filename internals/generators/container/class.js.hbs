@@ -1,0 +1,56 @@
+import React from 'react';
+// import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
+
+
+{{#if wantMessages}}
+import {FormattedMessage} from 'react-intl';
+import messages from './messages';
+{{/if}}
+
+import {Wrap} from './styles';
+
+class {{properCase name}} extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+
+  componentDidMount() {
+  // API calls goes here 
+  }
+
+  render() {
+    return (
+      <Wrap>
+        <article>
+          <h1>Hello there!</h1>
+          <hr />
+          <p>This is your new {{properCase name}} page.</p>
+          {{#if wantMessages}}
+          <FormattedMessage {...messages.preview} />
+          {{/if}}
+        </article>
+      </Wrap>
+    );
+  }
+}
+
+{{properCase name}}.propTypes = {};
+
+{{properCase name}}.defaultProps = {};
+
+function mapStateToProps(state) {
+ return {};
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    // homeInit: () => dispatch(homeInit()),
+  };
+}
+
+export default connect(
+  mapStateToProps, 
+  mapDispatchToProps
+)({{properCase name}});

@@ -1,0 +1,30 @@
+import React from 'react';
+// import PropTypes from 'prop-types';
+
+{{#if wantMessages}}
+import {FormattedMessage} from 'react-intl';
+import messages from './messages';
+{{/if}}
+
+import {Wrap} from './styles';
+
+class {{ properCase name }} extends {{{ type }}} { 
+
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+
+  render() {
+    return (
+      <Wrap>{{#if wantMessages}}<FormattedMessage {...messages.preview} />{{/if}}
+      </Wrap>
+    );
+  }
+}
+
+{{ properCase name }}.propTypes = {};
+
+{{ properCase name }}.defaultProps = {};
+
+export default {{ properCase name }};

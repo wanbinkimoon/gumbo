@@ -1,0 +1,28 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+
+{{#if wantMessages}}
+import messages from './messages';
+{{/if}}
+
+import {Wrap} from './styles'
+
+function {{ properCase name }}() {
+  return (
+    <Wrap>
+    {{#if wantMessages}}
+      {messages.header.defaultMessage}
+    {{/if}}
+    </Wrap>
+  );
+}
+
+{{ properCase name }}.propTypes = {
+
+};
+
+{{ properCase name }}.defaultProps = {
+
+};
+
+export default {{ properCase name }};
