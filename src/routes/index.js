@@ -2,7 +2,9 @@ import React from 'react';
 import {Switch, Route, BrowserRouter, NavLink} from 'react-router-dom';
 
 import InsertAlbum from '../containers/InsertAlbum';
+import ScrapList from '../containers/ScrapList';
 import NotFoundPage from '../containers/NotFoundPage';
+
 import {Layout, Menu, Icon} from 'antd';
 const {Header, Content} = Layout;
 
@@ -26,6 +28,12 @@ export default function Routing() {
                 Insert album
               </NavLink>
             </Menu.Item>
+            <Menu.Item>
+              <NavLink to={'/scrap-list'}>
+                <Icon type="database" theme="outlined" />
+                Database scrap list
+              </NavLink>
+            </Menu.Item>
           </Menu>
         </Header>
         <Content
@@ -37,6 +45,7 @@ export default function Routing() {
           }}>
           <Switch>
             <Route path="/insert" component={InsertAlbum} />
+            <Route path="/scrap-list" component={ScrapList} />
             <Route component={NotFoundPage} />
           </Switch>
         </Content>
