@@ -2,6 +2,7 @@ import {defineAsyncAction} from '../../utils/actionTrainer';
 import {call, put, takeEvery, select} from 'redux-saga/effects';
 import {get} from '../../utils/request';
 import {getServices} from '../Services/selectors';
+import normalizerSpotify from './normalizerSpotify';
 
 export const SEARCH = defineAsyncAction('SEARCH');
 
@@ -53,7 +54,7 @@ export default (state = initialState, action) => {
         ...state,
         loading: false,
         loaded: true,
-        [action.service]: [...action.data.albums.items],
+        [action.service]: {...action.data},
       };
     default:
       return state;
@@ -74,7 +75,10 @@ function* searchRequest(action) {
 
   try {
     const spotifyData = yield call(get, spotifyRequestURL, spotifyRequestOpt);
-    yield put(searchSuccess(spotifyData, 'spotify'));
+
+    yield put(
+      searchSuccess(normalizerSpotify(spotifyData.albums.items), 'spotify')
+    );
   } catch (err) {
     yield put(searchFailed(err));
   }

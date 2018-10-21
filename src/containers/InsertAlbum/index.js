@@ -48,7 +48,7 @@ export class InsertAlbum extends React.Component {
 
 InsertAlbum.propTypes = {
   loading: PropTypes.bool.isRequired,
-  loaded: PropTypes.bool.isRequired,
+  loaded: PropTypes.bool,
 };
 
 function mapStateToProps(state) {

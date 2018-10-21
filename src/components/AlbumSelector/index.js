@@ -34,19 +34,40 @@ class AlbumSelector extends React.Component {
   }
 
   componentDidMount() {
-    // const {} = this.props;
+    const {spotify} = this.props;
+    const spotifyData = Object.keys(spotify);
+    spotifyData.map(t =>
+      this.setState({
+        [t]: spotify[t][0],
+      })
+    );
   }
 
   handleSave = () => {};
 
   render() {
+    const {spotify} = this.props;
+    const spotifyData = Object.keys(spotify);
     return (
       <Form>
-        <Form.Item {...formItemLayout} label="Album name">
-          <Select size="large">
-            <Select.Option value="kind-of-blue">Kind of Blue</Select.Option>
-          </Select>
-        </Form.Item>
+        {spotifyData.map(t => (
+          <Form.Item key={t} {...formItemLayout} label={t}>
+            <Select
+              onChange={v =>
+                this.setState({
+                  [t]: v,
+                })
+              }
+              defaultValue={spotify[t][0]}
+              size="large">
+              {spotify[t].map(d => (
+                <Select.Option key={d} value={d}>
+                  {d}
+                </Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
+        ))}
         <Form.Item {...tailFormItemLayout}>
           <Button onClick={() => this.handleSave()} type="primary" icon="save">
             Save in local store
@@ -57,12 +78,16 @@ class AlbumSelector extends React.Component {
   }
 }
 
-AlbumSelector.propTypes = {};
+AlbumSelector.propTypes = {
+  spotify: PropTypes.object.isRequired,
+};
 
 AlbumSelector.defaultProps = {};
 
-function mapStateToProps() {
-  return {};
+function mapStateToProps(state) {
+  return {
+    spotify: state.search.spotify,
+  };
 }
 
 function mapDispatchToProps() {
