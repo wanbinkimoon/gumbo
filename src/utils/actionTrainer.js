@@ -1,6 +1,6 @@
 import {defineAction as define} from 'redux-define';
 
-const NS = 'carotine';
+const NS = 'jazzology';
 
 export const SUCCESS = 'SUCCESS';
 export const FAIL = 'FAIL';

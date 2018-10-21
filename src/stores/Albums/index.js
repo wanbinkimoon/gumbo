@@ -2,24 +2,25 @@ import {defineAsyncAction} from '../../utils/actionTrainer';
 import {call, put, takeEvery} from 'redux-saga/effects';
 import {get} from '../../utils/request';
 
-export const USERS = defineAsyncAction('USERS');
+export const ALBUMS = defineAsyncAction('ALBUMS');
 
-export function usersInit() {
+export function albumsInit() {
   return {
-    type: USERS.REQUEST,
+    type: ALBUMS.REQUEST,
   };
 }
 
-export function usersSuccess(data) {
+export function albumsSuccess(data, service) {
   return {
-    type: USERS.SUCCESS,
+    type: ALBUMS.SUCCESS,
     data,
+    service,
   };
 }
 
-export function usersFailed(data) {
+export function albumsFailed(data) {
   return {
-    type: USERS.FAIL,
+    type: ALBUMS.FAIL,
     data,
   };
 }
@@ -32,18 +33,18 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case USERS.REQUEST:
+    case ALBUMS.REQUEST:
       return {
         ...state,
         loading: true,
       };
-    case USERS.FAIL:
+    case ALBUMS.FAIL:
       return {
         ...state,
         loading: false,
         loaded: false,
       };
-    case USERS.SUCCESS:
+    case ALBUMS.SUCCESS:
       return {
         ...state,
         loading: false,
@@ -56,18 +57,18 @@ export default (state = initialState, action) => {
 };
 
 // Sagas
-function* usersRequest() {
+function* albumsRequest() {
   const requestURL = '';
   const requestOpt = {};
 
   try {
     const data = yield call(get, requestURL, requestOpt);
-    yield put(usersSuccess(data));
+    yield put(albumsSuccess(data));
   } catch (err) {
-    yield put(usersFailed(err));
+    yield put(albumsFailed(err));
   }
 }
 
 export function* sagas() {
-  yield takeEvery(USERS.REQUEST, usersRequest);
+  yield takeEvery(ALBUMS.REQUEST, albumsRequest);
 }

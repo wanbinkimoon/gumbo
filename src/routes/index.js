@@ -1,34 +1,46 @@
 import React from 'react';
-import {Switch, Route, Router} from 'react-router-dom';
-import createHistory from 'history/createBrowserHistory';
+import {Switch, Route, BrowserRouter, NavLink} from 'react-router-dom';
 
-import Home from '../containers/Home';
+import InsertAlbum from '../containers/InsertAlbum';
 import NotFoundPage from '../containers/NotFoundPage';
+import {Layout, Menu, Icon} from 'antd';
+const {Header, Content} = Layout;
 
-import {Wrap} from './styles';
-
-const history = createHistory();
+// const history = createHistory();
 
 export default function Routing() {
-  let prevLocation = {};
-  history.listen(location => {
-    const pathChanged = prevLocation.pathname !== location.pathname;
-    const hashChanged = prevLocation.hash !== location.hash;
-    if (pathChanged || hashChanged) {
-      window.scrollTo(0, 0);
-    }
-    prevLocation = location;
-  });
   return (
-    <Wrap>
-      <Router history={history}>
-        <div>
+    <BrowserRouter>
+      <Layout>
+        <Header>
+          <Menu theme="dark" mode="horizontal" style={{lineHeight: '64px'}}>
+            <Menu.Item>
+              <NavLink to={'/'}>
+                <Icon type="home" theme="outlined" />
+                Home
+              </NavLink>
+            </Menu.Item>
+            <Menu.Item>
+              <NavLink to={'/insert'}>
+                <Icon type="form" theme="outlined" />
+                Insert album
+              </NavLink>
+            </Menu.Item>
+          </Menu>
+        </Header>
+        <Content
+          style={{
+            background: '#fff',
+            padding: 24,
+            margin: 0,
+            minHeight: 280,
+          }}>
           <Switch>
-            <Route exact path="/" component={Home} />
+            <Route path="/insert" component={InsertAlbum} />
             <Route component={NotFoundPage} />
           </Switch>
-        </div>
-      </Router>
-    </Wrap>
+        </Content>
+      </Layout>
+    </BrowserRouter>
   );
 }

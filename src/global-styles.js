@@ -7,26 +7,26 @@ injectGlobal`
   body {
     height: 100%;
     width: 100%;
-    display: flex;
-    justify-content: center;
+    min-height: 100vh;
   }
-
+  
   *::-webkit-scrollbar {
     width: 0px;  /* remove scrollbar space */
     background: transparent;  /* optional: just make scrollbar invisible */
   } 
-
+  
   ::selection {
     /* background: ${colors.purpleLightissimo} !important;
     color: ${colors.gray} */
   }
   
-
+  
   * { 
     box-sizing: border-box;
   }
   
   body {
     font-family: ${fonts.primary}, Helvetica, sans-serif;
+    padding: 36px;
   }
 `;

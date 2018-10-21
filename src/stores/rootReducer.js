@@ -1,6 +1,8 @@
 import {combineReducers} from 'redux';
-import home from './Home/index';
+import search from './Search/index';
+import services from './Services/index';
 
 export const rootReducer = combineReducers({
-  home,
+  search,
+  services,
 });

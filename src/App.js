@@ -4,9 +4,10 @@ import {Provider} from 'react-redux';
 import {IntlProvider} from 'react-intl';
 import {configureStore} from './stores';
 
-import Routing from './Routing';
+import Routing from './routes';
 
 import './global-styles';
+import '../node_modules/antd/dist/antd.min.css';
 
 const store = configureStore();
 

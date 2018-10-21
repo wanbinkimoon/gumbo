@@ -1,3 +1,3 @@
-import {sagas as homeSagas} from './Home';
+import {sagas as searchSagas} from './Search';
 
-export default [homeSagas];
+export default [searchSagas];
