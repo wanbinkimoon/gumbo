@@ -1,8 +1,7 @@
-import React from 'react';
-// import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import * as firebase from 'firebase';
 import {Spin} from 'antd';
+import React from 'react';
+import * as firebase from 'firebase';
+import {connect} from 'react-redux';
 import ReactJson from 'react-json-view';
 
 class ScrapList extends React.Component {
@@ -15,11 +14,22 @@ class ScrapList extends React.Component {
 
   componentDidMount() {
     // API calls goes here
-    const scrapList = firebase
-      .database()
-      .ref()
-      .child('scrapping_list');
-    scrapList.on('value', snap => this.setState({list: snap.val()}));
+    const db = firebase.firestore();
+    db.collection('scrapping_list ')
+      .get()
+      .then(snap => {
+        let listSnap = {};
+        snap.forEach(
+          doc =>
+            (listSnap = {
+              ...listSnap,
+              [doc.id]: doc.data(),
+            })
+        );
+        this.setState({
+          list: listSnap,
+        });
+      });
   }
 
   render() {
@@ -36,7 +46,15 @@ class ScrapList extends React.Component {
       );
     }
 
-    return <ReactJson src={list} />;
+    return (
+      <ReactJson
+        name="scraping list"
+        displayObjectSize={false}
+        displayDataTypes={false}
+        enableClipboard={false}
+        src={list}
+      />
+    );
   }
 }
 

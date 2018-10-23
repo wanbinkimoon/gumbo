@@ -1,14 +1,13 @@
 import React, {Component} from 'react';
 import * as firebase from 'firebase';
-// Redux Store
-import {Provider} from 'react-redux';
 import {IntlProvider} from 'react-intl';
-import {configureStore} from './stores';
+import {Provider} from 'react-redux';
 
-import Routing from './routes';
+import '../node_modules/antd/dist/antd.min.css';
 
 import './global-styles';
-import '../node_modules/antd/dist/antd.min.css';
+import Routing from './routes';
+import {configureStore} from './stores';
 
 const config = {
   apiKey: 'AIzaSyD3QyY1gdibjCS87_QJitoQ3AIXgIAT1EY',
