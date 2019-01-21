@@ -1,6 +1,6 @@
 import {Spin} from 'antd';
+import PropTypes from 'prop-types';
 import React from 'react';
-import * as firebase from 'firebase';
 import {connect} from 'react-redux';
 import ReactJson from 'react-json-view';
 
@@ -8,33 +8,26 @@ class ScrapList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      list: [],
+      list: null,
+    };
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    return {
+      ...state,
+      list: props.data,
     };
   }
 
   componentDidMount() {
-    // API calls goes here
-    const db = firebase.firestore();
-    db.collection('scrapping_list ')
-      .get()
-      .then(snap => {
-        let listSnap = {};
-        snap.forEach(
-          doc =>
-            (listSnap = {
-              ...listSnap,
-              [doc.id]: doc.data(),
-            })
-        );
-        this.setState({
-          list: listSnap,
-        });
-      });
+    this.setState({
+      list: this.props.data,
+    });
   }
 
   render() {
     const {list} = this.state;
-    if (list.length === 0) {
+    if (!list) {
       return (
         <div
           style={{
@@ -58,13 +51,17 @@ class ScrapList extends React.Component {
   }
 }
 
-ScrapList.propTypes = {};
+ScrapList.propTypes = {
+  data: PropTypes.object,
+};
 
 ScrapList.defaultProps = {};
 
-// function mapStateToProps(state) {
-//   return {};
-// }
+function mapStateToProps(state) {
+  return {
+    data: state.scrapList.data,
+  };
+}
 
 // function mapDispatchToProps(dispatch) {
 //   return {
@@ -72,6 +69,5 @@ ScrapList.defaultProps = {};
 //   };
 // }
 
-export default connect()(ScrapList);
-// mapStateToProps,
+export default connect(mapStateToProps)(ScrapList);
 // mapDispatchToProps

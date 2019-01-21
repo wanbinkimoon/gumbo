@@ -1,7 +1,7 @@
 import {defineAsyncAction} from '../../utils/actionTrainer';
 import {put, takeEvery} from 'redux-saga/effects';
 // import {} from '../../utils/request';
-import normalizeScrapList from './normalizeScrapList';
+// import normalizeScrapList from './normalizeScrapList';
 
 export const SCRAPLIST = defineAsyncAction('SCRAPLIST');
 
@@ -46,7 +46,8 @@ export default (state = initialState, action) => {
 
 // Sagas
 function* scraplistRequest(action) {
-  yield put(scraplistSuccess(normalizeScrapList(action.data)));
+  // yield put(scraplistSuccess(normalizeScrapList(action.data)));
+  yield put(scraplistSuccess(action.data));
 }
 
 export function* sagas() {

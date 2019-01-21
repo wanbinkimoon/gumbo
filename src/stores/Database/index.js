@@ -69,18 +69,20 @@ export default (state = initialState, action) => {
 function* databaseRequest() {
   try {
     let listSnap = {};
+
     yield db
-      .collection('scrapping_list')
+      .collection('scrapping_list ')
       .get()
       .then(snap => {
-        return snap.forEach(
-          doc =>
-            (listSnap = {
-              ...listSnap,
-              [doc.id]: doc.data(),
-            })
-        );
+        return snap.forEach(doc => {
+          listSnap = {
+            ...listSnap,
+            [doc.id]: doc.data(),
+          };
+        });
       });
+
+    console.log(listSnap);
 
     yield put(scraplistInit(listSnap));
     yield put(databaseSuccess());
@@ -91,7 +93,17 @@ function* databaseRequest() {
 
 function* databaseAlbum(action) {
   try {
-    yield db.collection('scrapping_list').add(action.album);
+    // CHECK: album is already registered
+
+    // STEP: register the album
+    yield db
+      .collection('albums')
+      .add({...action.album})
+      .then(docRef => console.log('Document written with ID: ', docRef.id))
+      .catch(err => databaseFailed(err));
+
+    // STEP: register the scrapped data
+    // yield db.collection('scrapping_list');
   } catch (err) {
     yield put(databaseFailed(err));
   }
