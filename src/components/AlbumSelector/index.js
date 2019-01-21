@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {Select, Button, Form} from 'antd';
+import {databaseAddAlbum} from '../../stores/Database';
 
 const formItemLayout = {
   labelCol: {
@@ -43,7 +44,9 @@ class AlbumSelector extends React.Component {
     );
   }
 
-  handleSave = () => {};
+  handleSave() {
+    this.props.databaseAddAlbum(this.state.album);
+  }
 
   render() {
     const {spotify} = this.props;
@@ -80,6 +83,7 @@ class AlbumSelector extends React.Component {
 
 AlbumSelector.propTypes = {
   spotify: PropTypes.object.isRequired,
+  databaseAddAlbum: PropTypes.func.isRequired,
 };
 
 AlbumSelector.defaultProps = {};
@@ -90,8 +94,10 @@ function mapStateToProps(state) {
   };
 }
 
-function mapDispatchToProps() {
-  return {};
+function mapDispatchToProps(dispatch) {
+  return {
+    databaseAddAlbum: album => dispatch(databaseAddAlbum(album)),
+  };
 }
 
 export default connect(

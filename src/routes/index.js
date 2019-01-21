@@ -1,9 +1,10 @@
 import React from 'react';
-import * as firebase from 'firebase';
+import PropTypes from 'prop-types';
+
 import {Switch, Route, BrowserRouter, NavLink} from 'react-router-dom';
 import {connect} from 'react-redux';
 
-import {scraplistInit} from '../stores/ScrapList';
+import {databaseInit} from '../stores/Database';
 
 import InsertAlbum from '../containers/InsertAlbum';
 import ScrapList from '../containers/ScrapList';
@@ -18,20 +19,7 @@ const {Header, Content} = Layout;
 class Routing extends React.Component {
   constructor(props) {
     super(props);
-    const db = firebase.firestore();
-    db.collection('scrapping_list ')
-      .get()
-      .then(snap => {
-        let listSnap = {};
-        snap.forEach(
-          doc =>
-            (listSnap = {
-              ...listSnap,
-              [doc.id]: doc.data(),
-            })
-        );
-        props.scraplistInit(listSnap);
-      });
+    props.databaseInit();
   }
 
   render() {
@@ -80,12 +68,16 @@ class Routing extends React.Component {
   }
 }
 
-function mapStateToProps(state) {
+Routing.propTypes = {
+  databaseInit: PropTypes.func.isRequired,
+};
+
+function mapStateToProps() {
   return {};
 }
 function mapDispatchToProps(dispatch) {
   return {
-    scraplistInit: data => dispatch(scraplistInit(data)),
+    databaseInit: () => dispatch(databaseInit()),
   };
 }
 

@@ -34,7 +34,7 @@ class ScrapList extends React.Component {
 
   render() {
     const {list} = this.state;
-    if (list.length == 0) {
+    if (list.length === 0) {
       return (
         <div
           style={{

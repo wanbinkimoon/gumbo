@@ -1,6 +1,6 @@
 import {defineAsyncAction} from '../../utils/actionTrainer';
-import {call, put, takeEvery} from 'redux-saga/effects';
-import {get} from '../../utils/request';
+import {put, takeEvery} from 'redux-saga/effects';
+// import {} from '../../utils/request';
 import normalizeScrapList from './normalizeScrapList';
 
 export const SCRAPLIST = defineAsyncAction('SCRAPLIST');

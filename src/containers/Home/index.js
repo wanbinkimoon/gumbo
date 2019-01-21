@@ -1,7 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {Spin, Alert} from 'antd';
+
+import {storeToken} from '../../stores/Services';
+
+import {Spin, Alert, Input} from 'antd';
 
 import {Wrap} from './styles';
 
@@ -16,7 +19,7 @@ class Home extends React.Component {
   }
 
   render() {
-    const {loading, loaded, data} = this.props;
+    const {loading, loaded, data, storeToken} = this.props;
     const errorMsg = {
       title: 'Api Error',
       description:
@@ -55,6 +58,15 @@ class Home extends React.Component {
             showIcon
           />
         )}
+        <hr />
+        <br />
+        <br />
+        <Input.Search
+          placeholder="Spotify Token"
+          enterButton="Insert Token"
+          size="large"
+          onSearch={token => storeToken(token, 'spotify')}
+        />
       </Wrap>
     );
   }
@@ -63,7 +75,8 @@ class Home extends React.Component {
 Home.propTypes = {
   loading: PropTypes.bool.isRequired,
   loaded: PropTypes.bool,
-  data: PropTypes.any,
+  data: PropTypes.object,
+  storeToken: PropTypes.func,
 };
 
 Home.defaultProps = {};
@@ -76,13 +89,13 @@ function mapStateToProps(state) {
   };
 }
 
-// function mapDispatchToProps(dispatch) {
-//   return {
-//      homeInit: () => dispatch(homeInit()),
-//   };
-// }
+function mapDispatchToProps(dispatch) {
+  return {
+    storeToken: (token, service) => dispatch(storeToken(token, service)),
+  };
+}
 
 export default connect(
-  mapStateToProps
-  //mapDispatchToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(Home);
