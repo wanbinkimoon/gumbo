@@ -11,7 +11,7 @@ export class InsertAlbum extends React.Component {
     const errorMsg = {
       title: 'Api Error',
       description:
-        "C'è incontrato un errore durante una delle chiamate ai servizi, controlla la tab network o la console per avere più dettagli",
+        'Si consiglia di controllare la tab network o la console per avere più dettagli',
     };
     return (
       <div>

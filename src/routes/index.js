@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import * as firebase from 'firebase';
 import {Switch, Route, BrowserRouter, NavLink} from 'react-router-dom';
 import {connect} from 'react-redux';
@@ -79,6 +81,10 @@ class Routing extends React.Component {
     );
   }
 }
+
+Routing.propTypes = {
+  scraplistInit: PropTypes.func.isRequired,
+};
 
 function mapStateToProps(state) {
   return {};
