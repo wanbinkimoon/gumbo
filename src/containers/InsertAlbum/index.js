@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import FormSearch from '../../components/FormSearch';
 import AlbumSelector from '../../components/AlbumSelector';
-import {Spin, Alert} from 'antd';
+import {Spin, Alert, Input} from 'antd';
+import {storeToken} from '../../stores/Services';
 
 export class InsertAlbum extends React.Component {
   constructor(props) {
@@ -22,7 +23,7 @@ export class InsertAlbum extends React.Component {
   };
 
   render() {
-    const {loading, loaded} = this.props;
+    const {loading, loaded, token} = this.props;
     const {missingField} = this.state;
 
     const missingFieldMsg = {
@@ -33,19 +34,42 @@ export class InsertAlbum extends React.Component {
 
     return (
       <div>
-        {missingField && (
+        {!token && (
           <div
             style={{
               marginBottom: 24,
             }}>
             <Alert
-              message={missingFieldMsg.title}
-              description={missingFieldMsg.description}
+              message={
+                'No token found, inserisci il token di spotify e riprova'
+              }
+              description={
+                <Input.Search
+                  placeholder="Spotify Token"
+                  enterButton="Insert Token"
+                  size="large"
+                  onSearch={token => storeToken(token, 'spotify')}
+                />
+              }
               type="error"
               showIcon
             />
           </div>
         )}
+        {token &&
+          missingField && (
+            <div
+              style={{
+                marginBottom: 24,
+              }}>
+              <Alert
+                message={missingFieldMsg.title}
+                description={missingFieldMsg.description}
+                type="error"
+                showIcon
+              />
+            </div>
+          )}
         <FormSearch
           missingField={missingField}
           checkFields={this.checkFields}
@@ -71,13 +95,24 @@ InsertAlbum.propTypes = {
   loaded: PropTypes.bool,
   missingField: PropTypes.bool,
   checkFields: PropTypes.func,
+  token: PropTypes.string,
 };
 
 function mapStateToProps(state) {
   return {
     loading: state.search.loading,
     loaded: state.search.loaded,
+    token: state.services.spotify.token,
   };
 }
 
-export default connect(mapStateToProps)(InsertAlbum);
+function mapDispatchToProps(dispatch) {
+  return {
+    storeToken: (token, service) => dispatch(storeToken(token, service)),
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(InsertAlbum);
