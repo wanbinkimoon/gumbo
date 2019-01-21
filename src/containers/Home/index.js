@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {Spin, Alert} from 'antd';
+import {Spin, Alert, Search} from 'antd';
 
 import {Wrap} from './styles';
 
@@ -55,6 +55,15 @@ class Home extends React.Component {
             showIcon
           />
         )}
+        <hr />
+        <br />
+        <br />
+        <Search
+          placeholder="input search text"
+          enterButton="Search"
+          size="large"
+          onSearch={value => console.log(value)}
+        />
       </Wrap>
     );
   }
@@ -63,6 +72,7 @@ class Home extends React.Component {
 Home.propTypes = {
   loading: PropTypes.bool.isRequired,
   loaded: PropTypes.bool,
+  data: PropTypes.object,
 };
 
 Home.defaultProps = {};
