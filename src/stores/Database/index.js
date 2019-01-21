@@ -6,12 +6,18 @@ export const DATABASE = {
   REQUEST: 'gumbo/DATABASE/REQUEST',
   SUCCESS: 'gumbo/DATABASE/SUCCESS',
   FAIL: 'gumbo/DATABASE/FAIL',
-  WRITE: 'gumbo/DATABASE/WRITE',
+  WRITE_ALBUM: 'gumbo/DATABASE/WRITE_ALBUM',
 };
 
 export function databaseInit() {
   return {
     type: DATABASE.REQUEST,
+  };
+}
+export function databaseAddAlbum(album) {
+  return {
+    type: DATABASE.WRITE_ALBUM,
+    album,
   };
 }
 
@@ -37,6 +43,7 @@ const initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
     case DATABASE.REQUEST:
+    case DATABASE.WRITE_ALBUM:
       return {
         ...state,
         loading: true,
@@ -52,7 +59,6 @@ export default (state = initialState, action) => {
         ...state,
         loading: false,
         loaded: true,
-        data: {...action.data},
       };
     default:
       return state;
@@ -64,7 +70,7 @@ function* databaseRequest() {
   try {
     let listSnap = {};
     yield db
-      .collection('scrapping_list ')
+      .collection('scrapping_list')
       .get()
       .then(snap => {
         return snap.forEach(
@@ -83,6 +89,15 @@ function* databaseRequest() {
   }
 }
 
+function* databaseAlbum(action) {
+  try {
+    yield db.collection('scrapping_list').add(action.album);
+  } catch (err) {
+    yield put(databaseFailed(err));
+  }
+}
+
 export function* sagas() {
   yield takeEvery(DATABASE.REQUEST, databaseRequest);
+  yield takeEvery(DATABASE.WRITE_ALBUM, databaseAlbum);
 }
