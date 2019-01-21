@@ -1,8 +1,13 @@
-import {defineAsyncAction} from '../../utils/actionTrainer';
-import {call, put, takeEvery} from 'redux-saga/effects';
-import {get} from '../../utils/request';
+import {put, takeEvery} from 'redux-saga/effects';
+import {scraplistInit} from '../ScrapList';
+import db from '../../utils/firebase.conf';
 
-export const DATABASE = defineAsyncAction('DATABASE');
+export const DATABASE = {
+  REQUEST: 'gumbo/DATABASE/REQUEST',
+  SUCCESS: 'gumbo/DATABASE/SUCCESS',
+  FAIL: 'gumbo/DATABASE/FAIL',
+  WRITE: 'gumbo/DATABASE/WRITE',
+};
 
 export function databaseInit() {
   return {
@@ -10,24 +15,23 @@ export function databaseInit() {
   };
 }
 
-export function databaseSuccess(data) {
+export function databaseSuccess() {
   return {
     type: DATABASE.SUCCESS,
-    data,
   };
 }
 
-export function databaseFailed(data) {
+export function databaseFailed(err) {
+  console.error('Database request failed \n', err);
   return {
     type: DATABASE.FAIL,
-    data,
+    err,
   };
 }
 
 const initialState = {
   loading: false,
   loaded: false,
-  data: {},
 };
 
 export default (state = initialState, action) => {
@@ -57,12 +61,23 @@ export default (state = initialState, action) => {
 
 // Sagas
 function* databaseRequest() {
-  const requestURL = '';
-  const requestOpt = {};
-
   try {
-    const data = yield call(get, requestURL, requestOpt);
-    yield put(databaseSuccess(data));
+    let listSnap = {};
+    yield db
+      .collection('scrapping_list ')
+      .get()
+      .then(snap => {
+        return snap.forEach(
+          doc =>
+            (listSnap = {
+              ...listSnap,
+              [doc.id]: doc.data(),
+            })
+        );
+      });
+
+    yield put(scraplistInit(listSnap));
+    yield put(databaseSuccess());
   } catch (err) {
     yield put(databaseFailed(err));
   }

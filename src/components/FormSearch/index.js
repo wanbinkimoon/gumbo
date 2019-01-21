@@ -41,7 +41,7 @@ class FormSearch extends React.Component {
   }
 
   handleSubmit = e => {
-    e.preventDefault;
+    e.preventDefault();
     const {searchInit} = this.props;
     const {album} = this.state;
     searchInit(album);

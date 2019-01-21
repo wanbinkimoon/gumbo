@@ -43,9 +43,7 @@ class AlbumSelector extends React.Component {
     );
   }
 
-  handleSave() {
-    console.log('HANDLE SAVE');
-  }
+  handleSave() {}
 
   render() {
     const {spotify} = this.props;
