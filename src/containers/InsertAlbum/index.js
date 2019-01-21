@@ -6,30 +6,50 @@ import AlbumSelector from '../../components/AlbumSelector';
 import {Spin, Alert} from 'antd';
 
 export class InsertAlbum extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      missingField: false,
+    };
+  }
+
+  checkFields = (name, year) => {
+    if (!name || !year) {
+      this.setState({
+        missingField: true,
+      });
+    }
+  };
+
   render() {
     const {loading, loaded} = this.props;
-    const errorMsg = {
-      title: 'Api Error',
+    const {missingField} = this.state;
+
+    const missingFieldMsg = {
+      title: 'Missing Fields',
       description:
-        "C'è incontrato un errore durante una delle chiamate ai servizi, controlla la tab network o la console per avere più dettagli",
+        "Devi inserire il titolo dell'album e l'anno di uscita per poter cercare e aggiungere al DB",
     };
+
     return (
       <div>
-        {!loaded &&
-          loaded !== null && (
-            <div
-              style={{
-                marginBottom: 24,
-              }}>
-              <Alert
-                message={errorMsg.title}
-                description={errorMsg.description}
-                type="error"
-                showIcon
-              />
-            </div>
-          )}
-        <FormSearch />
+        {missingField && (
+          <div
+            style={{
+              marginBottom: 24,
+            }}>
+            <Alert
+              message={missingFieldMsg.title}
+              description={missingFieldMsg.description}
+              type="error"
+              showIcon
+            />
+          </div>
+        )}
+        <FormSearch
+          missingField={missingField}
+          checkFields={this.checkFields}
+        />
         <hr />
         {loading && (
           <div
@@ -49,6 +69,8 @@ export class InsertAlbum extends React.Component {
 InsertAlbum.propTypes = {
   loading: PropTypes.bool.isRequired,
   loaded: PropTypes.bool,
+  missingField: PropTypes.bool,
+  checkFields: PropTypes.func,
 };
 
 function mapStateToProps(state) {

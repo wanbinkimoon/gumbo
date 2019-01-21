@@ -63,6 +63,7 @@ class Home extends React.Component {
 Home.propTypes = {
   loading: PropTypes.bool.isRequired,
   loaded: PropTypes.bool,
+  data: PropTypes.any,
 };
 
 Home.defaultProps = {};
@@ -75,13 +76,13 @@ function mapStateToProps(state) {
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    // homeInit: () => dispatch(homeInit()),
-  };
-}
+// function mapDispatchToProps(dispatch) {
+//   return {
+//      homeInit: () => dispatch(homeInit()),
+//   };
+// }
 
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+  mapStateToProps
+  //mapDispatchToProps
 )(Home);

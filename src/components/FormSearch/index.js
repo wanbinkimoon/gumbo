@@ -42,15 +42,18 @@ class FormSearch extends React.Component {
 
   handleSubmit = e => {
     e.preventDefault;
-    const {searchInit} = this.props;
+    const {searchInit, checkFields} = this.props;
     const {album} = this.state;
+    checkFields(album.name, album.year);
     searchInit(album);
   };
 
   render() {
+    const {missingField} = this.props;
     const {album} = this.state;
+
     return (
-      <Form>
+      <Form missingField={missingField}>
         <Form.Item {...formItemLayout} label="Album name">
           <Input
             onChange={e =>

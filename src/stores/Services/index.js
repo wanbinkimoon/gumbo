@@ -1,7 +1,7 @@
 const initialState = {
   spotify: {
     token:
-      'BQDIdl7N3udKB8NCXk-xYzC-wboYmlNk3OacOLiIFIhI2aWnNUL6IvI8kee9gGrJQ49bzlABp-kdnPE7Rs_WmZMczAD-yNBYzwqli6HHL7hpE9tP_QmYeG4BfMBt_mRvD6IulHvj5Q2Q7wCaCgporytjuWMWcJnMoSpH',
+      'BQAy6i0RGnSFQRAOLkd-03yg0-qRvqfMz7nC-sJ6JfY4ImF6MXH5ROoRYtcLce-3MqDGth9z8oFKdV7BkNC1a_r8QQh8_kdh4hhGCwpIeVtVXGSkEtBNomgpxQeGfBi7Ysjmpo2iZMTeVw',
     url: 'https://api.spotify.com/v1/',
   },
 };
