@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import {Switch, Route, BrowserRouter, NavLink} from 'react-router-dom';
 import {connect} from 'react-redux';
 
-import {databaseInit} from '../stores/Database';
+import {databaseReadList} from '../stores/Database';
 
 import InsertAlbum from '../containers/InsertAlbum';
 import ScrapList from '../containers/ScrapList';
@@ -77,7 +77,7 @@ function mapStateToProps() {
 }
 function mapDispatchToProps(dispatch) {
   return {
-    databaseInit: () => dispatch(databaseInit()),
+    databaseInit: () => dispatch(databaseReadList()),
   };
 }
 

@@ -1,20 +1,13 @@
 import {defineAsyncAction} from '../../utils/actionTrainer';
-import {call, put, takeEvery} from 'redux-saga/effects';
-import {get} from '../../utils/request';
+// import {call, put, takeEvery} from 'redux-saga/effects';
+// import {get} from '../../utils/request';
 
 export const ALBUMS = defineAsyncAction('ALBUMS');
 
-export function albumsInit() {
-  return {
-    type: ALBUMS.REQUEST,
-  };
-}
-
-export function albumsSuccess(data, service) {
+export function albumsSuccess(data) {
   return {
     type: ALBUMS.SUCCESS,
     data,
-    service,
   };
 }
 
@@ -57,18 +50,18 @@ export default (state = initialState, action) => {
 };
 
 // Sagas
-function* albumsRequest() {
-  const requestURL = '';
-  const requestOpt = {};
+// function* albumsRequest() {
+//   const requestURL = '';
+//   const requestOpt = {};
 
-  try {
-    const data = yield call(get, requestURL, requestOpt);
-    yield put(albumsSuccess(data));
-  } catch (err) {
-    yield put(albumsFailed(err));
-  }
-}
+//   try {
+//     const data = yield call(get, requestURL, requestOpt);
+//     yield put(albumsSuccess(data));
+//   } catch (err) {
+//     yield put(albumsFailed(err));
+//   }
+// }
 
-export function* sagas() {
-  yield takeEvery(ALBUMS.REQUEST, albumsRequest);
-}
+// export function* sagas() {
+//   yield takeEvery(ALBUMS.REQUEST, albumsRequest);
+// }
