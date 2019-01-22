@@ -91,8 +91,6 @@ function* databaseRequest() {
         });
       });
 
-    console.log(listSnap);
-
     yield put(scraplistSuccess(listSnap));
     yield put(databaseSuccess());
   } catch (err) {
@@ -123,7 +121,7 @@ function* databaseAlbumRead() {
     let listSnap = {};
 
     yield db
-      .collection('albums ')
+      .collection('albums')
       .get()
       .then(snap => {
         return snap.forEach(doc => {
@@ -133,8 +131,6 @@ function* databaseAlbumRead() {
           };
         });
       });
-
-    console.log(listSnap);
 
     yield put(albumsSuccess(listSnap));
     yield put(databaseSuccess());

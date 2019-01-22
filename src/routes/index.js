@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import {Switch, Route, BrowserRouter, NavLink} from 'react-router-dom';
 import {connect} from 'react-redux';
 
-import {databaseReadList} from '../stores/Database';
+import {databaseReadList, databaseReadAlbums} from '../stores/Database';
 
 import InsertAlbum from '../containers/InsertAlbum';
 import ScrapList from '../containers/ScrapList';
@@ -19,7 +19,8 @@ const {Header, Content} = Layout;
 class Routing extends React.Component {
   constructor(props) {
     super(props);
-    props.databaseInit();
+    props.databaseReadList();
+    props.databaseReadAlbums();
   }
 
   render() {
@@ -69,7 +70,8 @@ class Routing extends React.Component {
 }
 
 Routing.propTypes = {
-  databaseInit: PropTypes.func.isRequired,
+  databaseReadList: PropTypes.func.isRequired,
+  databaseReadAlbums: PropTypes.func.isRequired,
 };
 
 function mapStateToProps() {
@@ -77,7 +79,8 @@ function mapStateToProps() {
 }
 function mapDispatchToProps(dispatch) {
   return {
-    databaseInit: () => dispatch(databaseReadList()),
+    databaseReadList: () => dispatch(databaseReadList()),
+    databaseReadAlbums: () => dispatch(databaseReadAlbums()),
   };
 }
 
