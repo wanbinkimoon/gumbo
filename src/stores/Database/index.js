@@ -1,6 +1,10 @@
-import {put, takeEvery} from 'redux-saga/effects';
+import {put, select, takeEvery} from 'redux-saga/effects';
+
 import {scraplistSuccess} from '../ScrapList';
+import {getScrapListData} from '../ScrapList/selectors';
+
 import {albumsSuccess} from '../Albums';
+
 import db from '../../utils/firebase.conf';
 
 export const DATABASE = {
@@ -98,21 +102,50 @@ function* databaseRequest() {
   }
 }
 
-function* databaseAlbum(action) {
-  try {
-    // CHECK: album is already registered
+// RESULT: store album in the
+function* databaseAlbumWrite(action) {
+  const dbData = yield select(getScrapListData());
 
-    // STEP: register the album
-    yield db
-      .collection('albums')
-      .add({...action.album})
-      .then(docRef => console.log('Document written with ID: ', docRef.id))
-      .catch(err => databaseFailed(err));
+  console.log(action);
 
-    // STEP: register the scrapped data
-    // yield db.collection('scrapping_list');
-  } catch (err) {
-    yield put(databaseFailed(err));
+  // CHECK: album is already registered
+  const isPresent =
+    Object.keys(dbData.scrapped).filter(
+      d => dbData.scrapped[d].title === action.album.title.toLowerCase()
+    ) > 0;
+
+  // STEP: if it is drop the process
+  // TODO: show alert in UI!
+  if (isPresent) {
+    console.log('Album already present in the db');
+    return;
+  } else {
+    try {
+      // STEP: register the album
+      yield db
+        .collection('albums')
+        .add({...action.album})
+        .then(docRef => console.log('Document written with ID: ', docRef.id))
+        .catch(err => databaseFailed(err));
+
+      // STEP: register the scrapped data
+      yield db
+        .collection('scrapping_list ')
+        .add({
+          id: {
+            discogs: null,
+            musicbrainz: null,
+            spotify: action.album.spotifyLink || true,
+            wikipedia: null,
+          },
+          title: action.album.title,
+          year: action.album.year,
+        })
+        .then(docRef => console.log('Document written with ID: ', docRef.id))
+        .catch(err => databaseFailed(err));
+    } catch (err) {
+      yield put(databaseFailed(err));
+    }
   }
 }
 
@@ -141,6 +174,6 @@ function* databaseAlbumRead() {
 
 export function* sagas() {
   yield takeEvery(DATABASE.READ_LIST, databaseRequest);
-  yield takeEvery(DATABASE.WRITE_ALBUM, databaseAlbum);
+  yield takeEvery(DATABASE.WRITE_ALBUM, databaseAlbumWrite);
   yield takeEvery(DATABASE.READ_ALBUMS, databaseAlbumRead);
 }

@@ -23,7 +23,7 @@ export class InsertAlbum extends React.Component {
   };
 
   render() {
-    const {loading, loaded, token} = this.props;
+    const {loading, loaded, token, storeToken} = this.props;
     const {missingField} = this.state;
 
     const missingFieldMsg = {
@@ -95,6 +95,7 @@ InsertAlbum.propTypes = {
   loaded: PropTypes.bool,
   missingField: PropTypes.bool,
   checkFields: PropTypes.func,
+  storeToken: PropTypes.func.isRequired,
   token: PropTypes.string,
 };
 
