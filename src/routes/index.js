@@ -8,6 +8,7 @@ import {databaseInit} from '../stores/Database';
 
 import InsertAlbum from '../containers/InsertAlbum';
 import ScrapList from '../containers/ScrapList';
+import AlbumPage from '../containers/AlbumPage';
 import Home from '../containers/Home';
 import NotFoundPage from '../containers/NotFoundPage';
 
@@ -46,6 +47,12 @@ class Routing extends React.Component {
                   Database scrap list
                 </NavLink>
               </Menu.Item>
+              <Menu.Item>
+                <NavLink to={'/album-database'}>
+                  <Icon type="database" theme="outlined" />
+                  Album Database
+                </NavLink>
+              </Menu.Item>
             </Menu>
           </Header>
           <Content
@@ -58,6 +65,7 @@ class Routing extends React.Component {
             <Switch>
               <Route path="/insert" component={InsertAlbum} />
               <Route path="/scrap-list" component={ScrapList} />
+              <Route path="/album-database" component={AlbumPage} />
               <Route path="/" component={Home} />
               <Route component={NotFoundPage} />
             </Switch>
