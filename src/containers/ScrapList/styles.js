@@ -4,6 +4,4 @@ import styled from 'styled-components';
 // import breakpoints from '../../constants/breakpoints'
 // import fonts from '../../constants/fonts'
 
-export const Wrap = styled.div`
-`;
-
+export const Wrap = styled.div``;
