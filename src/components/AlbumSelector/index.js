@@ -47,13 +47,14 @@ class AlbumSelector extends React.Component {
   handleSave() {
     const {databaseAddAlbum} = this.props;
     const album = {...this.state};
+
     // STEP: substitue every undefined with a null
     Object.keys(album).forEach(d => {
       if (!album[d]) {
         album[d] = null;
       }
     });
-    console.log(album);
+
     // STEP: launch redux action
     databaseAddAlbum(album);
   }
